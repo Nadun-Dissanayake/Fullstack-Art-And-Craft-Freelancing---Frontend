@@ -16,35 +16,37 @@ export default function Contact(){
     const [email,setEmail] = useState('');
     const [subject,setSubject] = useState('') ;
     const [message,setMessage] = useState('') ;
+    async function addMessage(ev){
+        
+        ev.preventDefault();
+        const response = await fetch('http://localhost:4000/message',{
+            method: 'POST',
+            body: JSON.stringify({name, email, subject, message}),
+            headers:{'Content-Type' : 'application/json'},
+        })
+        if(response.status === 200){
+            alert("Message Successfully Submited");
+        }
+        
+        
+    }
+    
 
-    // async function addmessage(ev){
-    //     const data = new FormData();
-    //     data.set('name', name);
-    //     data.set('email', email);
-    //     data.set('subject', subject);
-    //     data.set('message', message);
+    // async function contact(ev){
     //     ev.preventDefault();
-    //     const response = await fetch('http://localhost:4000/message' , {
-    //         method: 'POST', 
+    //     data.set('product_name', product_name);
+    //     data.set('product_name', product_name);
+    //     data.set('product_name', product_name);
+
+    //     const response = await fetch('http://localhost:4000/message',{
+    //         method: 'POST',
     //         body: data,
     //         credentials: 'include',
-    //     });
-    //     if(response.ok){
-    //         alert(response);
-    //     } else{
-    //         alert("Bad");
-    //     }
+    //     })
     // }
 
-    async function contact(ev){
-        ev.preventDefault();
-        const response = await fetch('http://localhost:4000/contact',{
-            method: 'POST',
-        })
-    }
-
     return(
-       <section onClick={contact}>
+       <section>
             <div className="about_hero">
                 <div className="discription">
                     <h1>You Can Contact Us</h1>
@@ -93,20 +95,24 @@ export default function Contact(){
                     </div>
                 </div>
 
-                <div className='tets-talk'>
-                <h1>Let’s Talk</h1>
-                    <p>Feel free to ask anything from us. we are always here to anwer</p>
-                    <hr/>
-                    <div className='name'>
-                        <input placeholder='Your Name' value={name} onChange={ ev => setName(ev.target.value)}></input>
-                        <input placeholder='Email' value={email} onChange={ ev => setEmail(ev.target.value)}></input>
+                
+                <form >
+                    <div className='tets-talk'>
+                        <h1>Let’s Talk</h1>
+                        <p>Feel free to ask anything from us. we are always here to anwer</p>
+                        <hr/>
+                        <div className='name'>
+                            <input placeholder='Your Name' value={name} onChange={ ev => setName(ev.target.value)}></input>
+                            <input value={email} onChange={ ev => setEmail(ev.target.value)} placeholder='Email'></input>
+                        </div>
+                        <input value={subject} onChange={ ev => setSubject(ev.target.value)} placeholder='Subject'></input>
+                        <textarea value={message} onChange={ ev => setMessage(ev.target.value)} placeholder='How Can We Help?'></textarea>
+                        <div>
+                            <button onClick={addMessage}>Send Message</button>
+                        </div>
                     </div>
-                    <input placeholder='Subject'value={subject} onChange={ ev => setSubject(ev.target.value)}></input>
-                    <textarea placeholder='How Can We Help?'value={message} onChange={ ev => setMessage(ev.target.value)}></textarea>
-                    <div>
-                        <button>Send Message</button>
-                    </div>
-                </div>
+                </form>
+                
                 
             </div>
        </section>
